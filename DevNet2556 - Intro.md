@@ -11,5 +11,5 @@ Python's usage in configuring network devices can be shown through a couple of m
 Contents in grey boxes will show output
 ```
 
-### [Next Step - Module 1 - Verify Guest Shell Operation](www.github.com/rshoemak/DevNet2556/Module1)
+### [Next Step - Module 1 - Verify Guest Shell Operation](Module1)
 

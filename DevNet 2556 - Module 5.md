@@ -1,13 +1,13 @@
 ## DevNet 2556 - Python on IOS-XE
 
 ### TABLE OF CONTENTS
-* Module 1 - [Verifying Guest Shell Operation](www.github.com/rshoemak/DevNet2556/Module1)
-* Module 2 - [Interactive Python Prompt](www.github.com/rshoemak/DevNet2556/Module2)
-* Module 3 - [Python API](www.github.com/rshoemak/DevNet2556/Module3)
-* Module 4 - [Python Script](www.github.com/rshoemak/DevNet2556/Module4)
-* Module 5 - [Embedded Event Manager](www.github.com/rshoemak/DevNet2556/Module5)
-* Module 6 - [NETCONF & YANG](www.github.com/rshoemak/DevNet2556/Module6)
-* Module 7 - [Bringing It All Together](www.github.com/rshoemak/DevNet2556/Module7)
+* Module 1 - [Verifying Guest Shell Operation](Module1)
+* Module 2 - [Interactive Python Prompt](Module2)
+* Module 3 - [Python API](Module3)
+* Module 4 - [Python Script](Module4)
+* Module 5 - [Embedded Event Manager](Module5)
+* Module 6 - [NETCONF & YANG](Module6)
+* Module 7 - [Bringing It All Together](Module7)
 
 
 ### Module 5 - Embedded Event Manager
@@ -57,6 +57,6 @@ end
 ```
 With `term mon` enabled, you can monitor the Syslog messages, and note how the Loopback interface gets shutdown, but then re-enabled as the EEM script is executed.
 
-![alt text](https://github.com/rshoemak/DevNet2556/images/eem-script-loop-up.png)
+![alt text](images/eem-script-loop-up.png)
 
 ### [Next Step - Module 6 - NETCONF & YANG](www.github.com/rshoemak/DevNet2556/Module6)

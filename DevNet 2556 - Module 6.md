@@ -1,13 +1,13 @@
 ## DevNet 2556 - Python on IOS-XE
 
 ### TABLE OF CONTENTS
-* Module 1 - [Verifying Guest Shell Operation](www.github.com/rshoemak/DevNet2556/Module1)
-* Module 2 - [Interactive Python Prompt](www.github.com/rshoemak/DevNet2556/Module2)
-* Module 3 - [Python API](www.github.com/rshoemak/DevNet2556/Module3)
-* Module 4 - [Python Script](www.github.com/rshoemak/DevNet2556/Module4)
-* Module 5 - [Embedded Event Manager](www.github.com/rshoemak/DevNet2556/Module5)
-* Module 6 - [NETCONF & YANG](www.github.com/rshoemak/DevNet2556/Module6)
-* Module 7 - [Bringing It All Together](www.github.com/rshoemak/DevNet2556/Module7)
+* Module 1 - [Verifying Guest Shell Operation](Module1)
+* Module 2 - [Interactive Python Prompt](Module2)
+* Module 3 - [Python API](Module3)
+* Module 4 - [Python Script](Module4)
+* Module 5 - [Embedded Event Manager](Module5)
+* Module 6 - [NETCONF & YANG](Module6)
+* Module 7 - [Bringing It All Together](Module7)
 
 
 ### Module 6 - NETCONF & YANG
@@ -21,7 +21,7 @@ show running | include netconf-yang
 show onep session all
 ```
 
-![alt text](https://github.com/rshoemak/DevNet2556/images/show-netconf-enabled.png)
+![alt text](images/show-netconf-enabled.png)
 
 For this module, we will be using a YANG model that Cisco built to expand upon the standard data structures of IETF models.  For this lab, we will be extracting the hostname of the device using the IOS-XE/Native Yang model.  
 
@@ -86,7 +86,7 @@ guestshell run python /flash/get_hostname.py
 ```
 This ends up being a very simple return, but we can see the power of using a more standardized structure to categorize data in a device's configuration.
 
-![alt text](https://github.com/rshoemak/DevNet2556/images/netconf-get-hostname.png)
+![alt text](images/netconf-get-hostname.png)
 
 Now for the final module, let's bring all of these components together!
 
