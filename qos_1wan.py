@@ -45,8 +45,8 @@ def main():
                     name = interface.find('{urn:ietf:params:xml:ns:yang:ietf-interfaces}name')
                     status = interface.find('{urn:ietf:params:xml:ns:yang:ietf-interfaces}enabled')
                     if status.text == 'true':
-                        cli('conf t; int %s; no service-policy output normal-egress-iwan8-shape' % name.text)
-                        cli('conf t; int %s; service-policy output linkdown-egress-iwan8-shape' % name.text)
+                        cli('conf t; int %s; no service-policy output normal-egress-shape' % name.text)
+                        cli('conf t; int %s; service-policy output linkdown-egress-shape' % name.text)
 
 if __name__ == '__main__':
     sys.exit(main())

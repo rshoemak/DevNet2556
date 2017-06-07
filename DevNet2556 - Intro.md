@@ -1,4 +1,4 @@
-## DevNet 2556 - Supercharge Your Network with Python on IOS-XE
+## DevNet 2556 - Python on IOS-XE
 
 ### Introduction
 This lab serves as introduction to using the on-box Python container available in IOS-XE.  This container has been added to IOS-XE versions 16.5 and later.  
@@ -11,5 +11,5 @@ Python's usage in configuring network devices can be shown through a couple of m
 Contents in grey boxes will show output
 ```
 
-###[Module 1](www.github.com/rshoemak/Module1)
+### [Next Step - Module 1 - Verify Guest Shell Operation](www.github.com/rshoemak/DevNet2556/Module1)
 

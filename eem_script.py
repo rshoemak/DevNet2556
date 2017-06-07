@@ -4,12 +4,12 @@ from datetime import datetime
 import time
 from cli import cli,clip
  
-intf= sys.argv[1:]
+intf = sys.argv[1:]
 intf = ''.join(intf[0])
  
-if intf == 'loopback55':
-    cmd="conf t; int loopback55; no shut "
+if intf == 'loopback66':
+    cmd="conf t; int loopback66; no shut"
     cli(cmd)
-else :
+else:
     cmd="conf t; int %s; no shut "%intf
     cli(cmd)
