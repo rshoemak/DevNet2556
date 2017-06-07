@@ -1,13 +1,13 @@
 ## DevNet 2556 - Python on IOS-XE
 
 ### TABLE OF CONTENTS
-* Module 1 - [Verifying Guest Shell Operation](Module1)
-* Module 2 - [Interactive Python Prompt](Module2)
-* Module 3 - [Python API](Module3)
-* Module 4 - [Python Script](Module4)
-* Module 5 - [Embedded Event Manager](Module5)
-* Module 6 - [NETCONF & YANG](Module6)
-* Module 7 - [Bringing It All Together](Module7)
+* Module 1 - [Verifying Guest Shell Operation](Module1.md)
+* Module 2 - [Interactive Python Prompt](Module2.md)
+* Module 3 - [Python API](Module3.md)
+* Module 4 - [Python Script](Module4.md)
+* Module 5 - [Embedded Event Manager](Module5.md)
+* Module 6 - [NETCONF & YANG](Module6.md)
+* Module 7 - [Bringing It All Together](Module7.md)
 
 
 ### Module 1 - Verifying Guest Shell Operation
