@@ -1,0 +1,112 @@
+
+hostname devnet2556
+!
+!
+class-map match-any dscp8#SCAVENGER
+ match dscp cs1 
+class-map match-any dscp8#SIGNALING
+ match dscp cs3 
+class-map match-any dscp8#VOICE
+ match dscp ef 
+class-map match-any dscp8#TRANSACTIONAL-DATA
+ match dscp af21 
+ match dscp af22 
+ match dscp af23 
+class-map match-any dscp8#MULTIMEDIA-CONFERENCING
+ match dscp af41 
+ match dscp af42 
+ match dscp af43 
+class-map match-any dscp8#NETWORK-CONTROL
+ match dscp cs6 
+class-map match-any dscp8#BULK-DATA
+ match dscp af11 
+ match dscp af12 
+ match dscp af13 
+!
+policy-map normal-egress
+ class dscp8#VOICE
+  police rate percent 10
+  priority
+ class dscp8#MULTIMEDIA-CONFERENCING
+  police rate percent 23
+  priority
+ class dscp8#SIGNALING
+  bandwidth remaining percent 2 
+ class dscp8#NETWORK-CONTROL
+  bandwidth remaining percent 5 
+ class dscp8#TRANSACTIONAL-DATA
+  bandwidth remaining percent 24 
+  fair-queue
+  random-detect dscp-based
+  random-detect dscp 18 50 64
+  random-detect dscp 20 45 64
+  random-detect dscp 22 40 64
+ class dscp8#BULK-DATA
+  bandwidth remaining percent 10 
+  fair-queue
+  random-detect dscp-based
+  random-detect dscp 10 50 64
+  random-detect dscp 12 45 64
+  random-detect dscp 14 40 64
+ class dscp8#SCAVENGER
+  bandwidth remaining percent 1 
+ class class-default
+  bandwidth remaining percent 25 
+  fair-queue
+  queue-limit 128 packets
+  random-detect dscp-based
+policy-map normal-egress-shape
+ class class-default
+  shape average 1500000   
+   service-policy normal-egress
+policy-map linkdown-egress-shape
+ class class-default
+  shape average 1000000
+   service-policy normal-egress
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ description Tracked Interface
+ ip address 192.168.200.255 255.255.255.255
+!
+interface GigabitEthernet1
+ description WAN
+ service-policy output normal-egress-shape
+!
+!
+logging history debugging
+logging snmp-trap emergencies
+logging snmp-trap alerts
+logging snmp-trap critical
+logging snmp-trap errors
+logging snmp-trap warnings
+logging snmp-trap notifications
+logging snmp-trap informational
+logging snmp-trap debugging
+!
+!
+snmp-server community public RW
+snmp-server trap link ietf
+snmp-server enable traps snmp authentication linkdown
+snmp-server manager
+!
+!
+!
+end
+!
