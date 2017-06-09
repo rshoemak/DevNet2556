@@ -90,7 +90,7 @@ This ends up being a very simple return, but we can see the power of using a mor
 
 Now for the final module, let's bring all of these components together!
 
-### [Next Step - Module 7 - Bringing it all Together](www.github.com/rshoemak/DevNet2556/Module7)
+### [Next Step - Module 7 - Bringing it all Together](Module7.md)
 
 
 

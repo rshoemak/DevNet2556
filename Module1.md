@@ -19,7 +19,6 @@ In this lab, we are going to be using the Guest Shell container to run Python sc
 Let's start by examining the status on the router.  Copy and paste the content inside the grey box below.  
 
 ```
-conf t
 show iox-service
 request platform software iox-manager app-hosting guestshell status
 ```
@@ -60,4 +59,4 @@ Guestshell status: RUNNING
 ```
 These indicate our Linux environment is up and running.  We can proceed to the next section of the lab.
 
-### [Next Step - Module 2 - Interactive Python Prompt](www.github.com/rshoemak/DevNet2556/Module2)
+### [Next Step - Module 2 - Interactive Python Prompt](Module2.md)

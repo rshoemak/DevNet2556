@@ -78,4 +78,4 @@ Now we see a result from each command in the list.
 
 This demonstrates some simple uses of the Python API.  In the next section we will see how some of this can be used in a more programmatic fashion.
 
-### [Next Step - Module 4 - Python Script](www.github.com/rshoemak/DevNet2556/Module4)
+### [Next Step - Module 4 - Python Script](Module4.md)

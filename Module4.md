@@ -50,6 +50,6 @@ The returned result will show the various interfaces in the device.
 
 This shows how to run a simple Python script to get output.  
 
-### [Next Step - Module 5 - Embedded Event Manager](www.github.com/rshoemak/DevNet2556/Module5)
+### [Next Step - Module 5 - Embedded Event Manager](Module5.md)
 
 

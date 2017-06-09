@@ -49,4 +49,4 @@ hello world
 
 This demonstrates a very basic usage of Python.  We will proceed to a more useful Python tool in IOS-XE.
 
-### [Next Step - Module 3 - Python API](www.github.com/rshoemak/DevNet2556/Module3)
+### [Next Step - Module 3 - Python API](Module3.md)

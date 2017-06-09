@@ -59,4 +59,4 @@ With `term mon` enabled, you can monitor the Syslog messages, and note how the L
 
 ![alt text](images/eem-script-loop-up.png)
 
-### [Next Step - Module 6 - NETCONF & YANG](www.github.com/rshoemak/DevNet2556/Module6)
+### [Next Step - Module 6 - NETCONF & YANG](Module6.md)
