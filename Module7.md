@@ -31,7 +31,7 @@ Note that this policy map provides a 1.5G shaper to the WAN interface.
 
 For this example, we are going to execute a procedure that checks for when a monitored interface goes "down" and then changes the QoS policy for still operating WAN interfaces.  The idea is that it might be beneficial to modify how QoS behaves if your branch site moves from dual operational WAN links to only one operational WAN link.  
 
-The Python script we are going to be using is going to leverage both NETCONF and the Python API in order to identify the interface with the desciption "WAN" and in an operationally up state.  When it finds this interface, it is going to change to QoS policy map applied to it.  
+The Python script we are going to be using is going to leverage NETCONF to identify the interface with the desciption "WAN" and in an operationally up state.  When it finds this interface, it will leverage the Python API to change to QoS policy map applied to it.  
 
 Finally, we will be using EEM to monitor for the interface of interest and only make this change when that interface goes "down."
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
 Some elements here should look familiar as we explored them in earlier modules.  We are using NETCONF to gather intformation from the device.  Notice we are using the `manager.connect()` function to open a connection using the NETCONF port.  However we are using a different YANG model as the interface description is part of the ietf-interfaces YANG model.  
 
-This script also uses the element tree function again, to parse through the data looking for specific data elements.  In this case, it is searching for the description field, and finding interfaces that match "WAN".  Upon finding those interfaces, it is then checking for only those enterfaces that are enabled.  
+This script also uses the element tree function again, to parse through the data looking for specific data elements.  In this case, it is searching for the description field, and finding interfaces that match "WAN".  Upon finding those interfaces, it is then checking for only those interfaces that are enabled.  
 
 Once it finds this match, it then executes the Python API to change the policy-map associated with that interface from the normal QoS policy to the linkdown QoS policy.
 
