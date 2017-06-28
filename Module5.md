@@ -36,6 +36,7 @@ else :
 
 In order to execute this script, we need to create an EEM policy in CLI.  Copy the content from the grey box below and paste that into the device prompt.
 
+
 ```
 conf t
 event manager applet interface_Shutdown
