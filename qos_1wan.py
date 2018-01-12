@@ -3,50 +3,79 @@
 from ncclient import manager
 import os
 import sys
-try:
-    from lxml import etree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
-#import xml.dom.minidom
+import xml.dom.minidom as DOM
 from cli import cli
 
-USER = 'vagrant'
-PASS = 'vagrant'
 HOST = '192.168.35.1'
 PORT = 830
+USER = 'vagrant'
+PASS = 'vagrant'
+NS = """
+        <filter>
+            <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+                <interface></interface>
+            </interfaces>
+        </filter>
+        """
+
+class IntInfo():
+    def __init__(self, name, description, enabled):
+        self.name = name
+        self.description = description
+        self.enabled = enabled
 
 
-def main():
+def connect(xml_filter):
     """
-    Simple main method calling our function.
+    Grab running config and filter returned data based on XML Filter
     """
     with manager.connect(host=HOST, port=PORT, username=USER,
                          password=PASS, hostkey_verify=False,
                          device_params={'name': 'default'},
                          allow_agent=False, look_for_keys=False) as m:
 
-        interface_filter = """
-                        <filter>
-                            <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
-                                <interface></interface>
-                            </interfaces>
-                        </filter>
-                        """
+        return(m.get_config('running', xml_filter))
 
-        interfaces = m.get_config('running', interface_filter)
-        #   if you want to see the XML parsed output, you can uncomment the line below.
-        #print(xml.dom.minidom.parseString(interfaces.xml).toprettyxml())
 
-        root = ET.fromstring(interfaces.xml)
+def get_int_info(int):
+    name_obj = int.getElementsByTagName("name")[0]
+    name = name_obj.firstChild.nodeValue
 
-        for interface in root.iter('{urn:ietf:params:xml:ns:yang:ietf-interfaces}interface'):
-            for description in interface.findall('{urn:ietf:params:xml:ns:yang:ietf-interfaces}description'):
-                if description.text == 'WAN':
-                    name = interface.find('{urn:ietf:params:xml:ns:yang:ietf-interfaces}name')
-                    status = interface.find('{urn:ietf:params:xml:ns:yang:ietf-interfaces}enabled')
-                    if status.text == 'true':
-                        cli('conf t; int %s; no service-policy output normal-egress-shape' % name.text)
-                        cli('conf t; int %s; service-policy output linkdown-egress-shape' % name.text)
+    if len(int.getElementsByTagName("description")) != 1:
+        description = "empty"
+    else:
+        description_obj = int.getElementsByTagName("description")[0]
+        description = description_obj.firstChild.nodeValue
+
+    enabled_obj = int.getElementsByTagName("enabled")[0]
+    enabled = enabled_obj.firstChild.nodeValue
+
+    return IntInfo(name, description, enabled)
+
+
+def main():
+    """
+    Main function
+    """
+    interfaces_ietf = connect(NS)
+
+    #   if you want to see the XML parsed output, you can uncomment the line below.
+    # print(DOM.parseString(interfaces_ietf.xml).toprettyxml())
+
+    doc = DOM.parseString(interfaces_ietf.xml)
+    node = doc.documentElement
+
+    inters_ietf = doc.getElementsByTagName("interface")
+    for each in inters_ietf:
+        ints = get_int_info(each)
+        # print("%s, description: %s,  enabled: %s" % (ints.name, ints.description, ints.enabled))
+
+        if ints.description == 'WAN':
+            if ints.enabled == 'true':
+                print("Adjusting QoS Policy on interface %s" % ints.name)
+                cli('conf t; int %s; no service-policy output normal-egress-shape' % ints.name)
+                cli('conf t; int %s; service-policy output linkdown-egress-shape' % ints.name)
+
 
 if __name__ == '__main__':
     sys.exit(main())

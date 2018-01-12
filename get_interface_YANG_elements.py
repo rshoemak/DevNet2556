@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 #
+# Get interface elements using Netconf and Cisco-IOS-XE-Native YANG model
+#
+# rshoemak@cisco.com
+#
+
 from ncclient import manager
 import sys
 import xml.dom.minidom as DOM
 
+
 # the variables below assume the user is leveraging a
-# Vagrant Image running IOS-XE 16.7
+# Vagrant Image running IOS-XE 16.7 on local device
 HOST = '192.168.35.1'
 # use the NETCONF port for your IOS-XE
 PORT = 830
@@ -16,7 +22,7 @@ PASS = 'vagrant'
 
 def main():
     """
-    Main method that retrieves the hostname from config via NETCONF.
+    Main method that retrieves the node list of the interface node via NETCONF.
     """
     with manager.connect(host=HOST, port=PORT, username=USER,
                          password=PASS, hostkey_verify=False,
@@ -27,15 +33,13 @@ def main():
         hostname_filter = """
                         <filter>
                             <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+                                <interface></interface>
                             </native>
                         </filter>
                         """
 
         result = m.get_config('running', hostname_filter)
-        xml_doc = DOM.parseString(result.xml)
-        hostname_obj = xml_doc.getElementsByTagName("hostname")
-        hostname = hostname_obj[0].firstChild.nodeValue
-        print(hostname)
+        print(DOM.parseString(result.xml).toprettyxml())
 
 
 if __name__ == '__main__':
