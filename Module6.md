@@ -7,12 +7,15 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [Bringing It All Together](Module7.md)
+* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 8 - [Bringing It All Together](Module8.md)
 
 
 ### Module 6 - NETCONF & YANG
 
 Outside of the Python API which we explored in Module 3, device configuration can also be completed using NETCONF.  This is an industry standard protocol for manipulating configurations on devices. In order to properly control devices with NETCONF, industry standard models, in YANG format, are used to provide the proper context and structure to manipulate the configurations.   
+
+While YANG models are provided by industry standards organizations like the IETF, manufacturers can and do provide their own extensions to those models.  They might do this to enhance the capabilities of their equipment beyond what a standards organization will provide.
 
 In order to use NETCONF on IOS-XE, the capabiliy must be enabled.  Copy the information in the grey box below and paste it into the device.
 
@@ -23,7 +26,18 @@ show onep session all
 
 ![alt text](images/show-netconf-enabled.png)
 
+Note how there are only a couple of lines that need to be added to an IOS-XE device's configuration to enable netconf.  We check the status of the service by issuing the second command that validates the onep sessions are running.
+
 For this module, we will be using a YANG model that Cisco built to expand upon the standard data structures of IETF models.  For this lab, we will be extracting the hostname of the device using the IOS-XE/Native Yang model.  
+
+Let's take a look at some basic structuring of the Cisco-IOS-XE-Native YANG Model.
+
+![alt text](images/YANG-Model-IOSXE-Native.png)
+
+Here we see the information follows a well-defined structure.  In this example, we see a model that will gather information about a device's GigabitEthernet interfaces.  The information returned will be nested within the GigabitEthernet interface structure.  Here we see that some of the data pieces that will be returned include the name, port-type, description, mac-address, shutdown state, and encapsulation type.  
+
+
+Let's take a look at using a basic YANG model to gather a basic piece of information from an IOS-XE device through a Python script.
 
 The Python script used is `get_hostname.py` and is the following:
 
@@ -35,7 +49,7 @@ import sys
 import xml.dom.minidom
 
 # the variables below assume the user is leveraging a
-# Vagrant Image running IOS-XE 16.5 on local device
+# Vagrant Image running IOS-XE 16.5 or later on local device
 HOST = '192.168.35.1'
 # use the NETCONF port for your IOS-XE
 PORT = 830
@@ -57,27 +71,27 @@ def main():
         hostname_filter = """
                         <filter>
                             <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
-                                <hostname/>
                             </native>
                         </filter>
                         """
 
         result = m.get_config('running', hostname_filter)
         xml_doc = xml.dom.minidom.parseString(result.xml)
-        hostname = xml_doc.getElementsByTagName("hostname")
-        print(hostname[0].firstChild.nodeValue)
+        hostname_obj = xml_doc.getElementsByTagName("hostname")
+        hostname = hostname_obj[0].firstChild.nodeValue
+        print(hostname)
 
 
 if __name__ == '__main__':
     sys.exit(main())
 ```
 
-While a detailed description of NETCONF & YANG are outside of the scope of this lab, it is worth highlighting a few of the critical components of the Python script above.
+While a more detailed description of NETCONF & YANG are outside of the scope of this lab, it is worth highlighting a few of the critical components of the Python script above.
 
 1. ncclient is the NETCONF client model for Python.  Through this, various NETCONF calls can be made inside the script.  In this lab, we use the command `get_config('running', FILTER)` in order to collect information from the running config.
 2. the `manager.connect` function shows how we will connect to the device.  Notice we use a defined username and password along with the IP address of the device and its NETCONF port, 830, to connect.
-3. The `FILTER` being used is `http://cisco.com/ns/yang/Cisco-IOS-XE-Native` and this is a YANG model that will provide the information we need in a standard model.  
-4. We use ElementTree to walk the data collected from the `get_config` command.  Here, we are specifically looking for an element with a Tag called "hostname."
+3. The `xml_filter` being used is `http://cisco.com/ns/yang/Cisco-IOS-XE-Native` and this is a YANG model that will provide the information we need in a standard model.  
+4. We use miniDOM to parse the data collected from the `get_config` command.  Here, we are specifically looking for an element with a Tag called "hostname."
 
 Copy the commands inside the grey box below and paste them into the device prompt, and we will use the script to retrieve the hostname of the device.
 
@@ -88,9 +102,11 @@ This ends up being a very simple return, but we can see the power of using a mor
 
 ![alt text](images/netconf-get-hostname.png)
 
+For the next module, let's explore getting data out of a configuration from both the "CLI" method and via NETCONF.  
+
 Now for the final module, let's bring all of these components together!
 
-### [Next Step - Module 7 - Bringing it all Together](Module7.md)
+### [Next Step - Module 7 - A Deeper Look at NETCONF](Module7.md)
 
 
 

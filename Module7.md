@@ -7,128 +7,183 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [Bringing It All Together](Module7.md)
+* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 8 - [Bringing It All Together](Module8.md)
 
 
-### Module 7 - Bringing it all Together
+### Module 7 - A Deeper Look at NETCONF
 
-For the final module of this lab, we are going to bring together several of the technologies we used earlier.  
+We've explored using Python to program IOS-XE by extracting data using both the CLI library and with NETCONF.  Let's take a deeper look at extracting data from an IOS-XE device using NETCONF.
 
-Take a look at the QoS configuration that is currently running on this device by copying and pasting the content inside the grey box below into your device.
+Let's start by exploring the data nodes that should be part of any interface inside the Cisco IOS-XE Native YANG model.   If we take a simple script and leverage the Cisco-IOS-XE-Native YANG model, but then ask only for those data elements that exist inside the "Interface" node, we can determine what is structured for our use.  
 
-```
-show runn int gig 1
-```
-
-Note there is a service-policy attached to this device's "WAN" inteterface.  That policy is "normal-egress-shape".  
-
-You can further see what this does by copying the following command and pasting it to the device.
-
-```
-show policy-map normal-egress-shape
-```
-Note that this policy map provides a 1.5G shaper to the WAN interface.  
-
-For this example, we are going to execute a procedure that checks for when a monitored interface goes "down" and then changes the QoS policy for still operating WAN interfaces.  The idea is that it might be beneficial to modify how QoS behaves if your branch site moves from dual operational WAN links to only one operational WAN link.  
-
-The Python script we are going to be using is going to leverage NETCONF to identify the interface with the desciption "WAN" and in an operationally up state.  When it finds this interface, it will leverage the Python API to change to QoS policy map applied to it.  
-
-Finally, we will be using EEM to monitor for the interface of interest and only make this change when that interface goes "down."
-
-Here is the Python script we will be using for this module.
+We will do this by using the following Python script:
 
 ```python
 #!/usr/bin/env python
+#
+# Get interface elements using Netconf and Cisco-IOS-XE-Native YANG model
+#
+# rshoemak@cisco.com
+#
 
 from ncclient import manager
-import os
 import sys
-try:
-    from lxml import etree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
-#import xml.dom.minidom
-from cli import cli
+import xml.dom.minidom as DOM
 
+
+# the variables below assume the user is leveraging a
+# Vagrant Image running IOS-XE 16.7 on local device
+HOST = '192.168.35.1'
+# use the NETCONF port for your IOS-XE
+PORT = 830
+# use the user credentials for your IOS-XE
 USER = 'vagrant'
 PASS = 'vagrant'
-HOST = '192.168.35.1'
-PORT = 830
 
 
 def main():
     """
-    Simple main method calling our function.
+    Main method that retrieves the node list of the interface node via NETCONF.
     """
     with manager.connect(host=HOST, port=PORT, username=USER,
                          password=PASS, hostkey_verify=False,
                          device_params={'name': 'default'},
                          allow_agent=False, look_for_keys=False) as m:
 
-        interface_filter = """
+        # XML filter to issue with the get operation
+        hostname_filter = """
                         <filter>
-                            <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+                            <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
                                 <interface></interface>
-                            </interfaces>
+                            </native>
                         </filter>
                         """
 
-        interfaces = m.get_config('running', interface_filter)
-        #   if you want to see the XML parsed output, you can uncomment the line below.
-        #print(xml.dom.minidom.parseString(interfaces.xml).toprettyxml())
+        result = m.get_config('running', hostname_filter)
+        print(DOM.parseString(result.xml).toprettyxml())
 
-        root = ET.fromstring(interfaces.xml)
 
-        for interface in root.iter('{urn:ietf:params:xml:ns:yang:ietf-interfaces}interface'):
-            for description in interface.findall('{urn:ietf:params:xml:ns:yang:ietf-interfaces}description'):
-                if description.text == 'WAN':
-                    name = interface.find('{urn:ietf:params:xml:ns:yang:ietf-interfaces}name')
-                    status = interface.find('{urn:ietf:params:xml:ns:yang:ietf-interfaces}enabled')
-                    if status.text == 'true':
-                         cli('conf t; int %s; no service-policy output normal-egress-shape' % name.text)
-                         cli('conf t; int %s; service-policy output linkdown-egress-shape' % name.text)
-                        
 if __name__ == '__main__':
     sys.exit(main())
 ```
+    
+Taking a look at this program, it looks very similar to the one we just went through in module 6.  One key difference is that we've slightly modified the filter.  Now instead of looking at all the nodes contained inside the running-config of an IOS-XE device using the Cisco-IOS-XE-Native YANG model, we've asked the program to only return that data nested inside the "interface" node.  This type of nesting allows our programs to operate better in that we can be very specific about which parts of the data structure we want to search for information.  
 
-Some elements here should look familiar as we explored them in earlier modules.  We are using NETCONF to gather intformation from the device.  Notice we are using the `manager.connect()` function to open a connection using the NETCONF port.  However we are using a different YANG model as the interface description is part of the ietf-interfaces YANG model.  
-
-This script also uses the element tree function again, to parse through the data looking for specific data elements.  In this case, it is searching for the description field, and finding interfaces that match "WAN".  Upon finding those interfaces, it is then checking for only those interfaces that are enabled.  
-
-Once it finds this match, it then executes the Python API to change the policy-map associated with that interface from the normal QoS policy to the linkdown QoS policy.
-
-Let's apply our EEM section to monitor for our test interface going down.  For simplicity, we are going to use the same Loopback0 interface that we used in previous modules.  Copy the syntax inside the grey box below and paste that into the device prompt.
+Copy the command inside the grey box below and paste that into the device prompt.
 
 ```
-conf t
-event manager applet 1WAN
-event syslog pattern "Line protocol on Interface Loopback0, changed state to down"
-action 0.0 cli command "en"
-action 1.0 cli command "guestshell run python /flash/qos_1wan.py"
-end
+guestshell run python /flash/get_interface_YANG_elements.py
+```
+The returned output is an XML formatted display of all the elements that is contained inside that YANG model structure.  Here is a snippet of what comes back.
+
+![alt text](images/get_interface_YANG_elements_output.png)
+
+If we need to collect a node of data from something inside this returned XML data structure, then we can use Python to find the correct node, and then assign that value to a variable.  
+
+Let's look at one more program that will show how we can leverage this NETCONF returned data structure to extract the information we need.  In particular, let's use NETCONF to return values for each interface's name, description, and IP address.  
+
+We will do this by using the following Python script:
+
+```python
+#!/usr/bin/env python
+#
+from ncclient import manager
+import sys
+import xml.dom.minidom as DOM
+
+# the variables below assume the user is leveraging a
+# Vagrant Image running IOS-XE 16.7 on local device
+HOST = '192.168.35.1'
+# use the NETCONF port for your IOS-XE
+PORT = 830
+# use the user credentials for your IOS-XE
+USER = 'vagrant'
+PASS = 'vagrant'
+# YANG filter
+NS = """
+    <filter>
+        <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+            <interface></interface>
+        </native>
+    </filter>
+    """
+
+
+class IntInfo():
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+
+def connect(xml_filter):
+    """
+    Open connection using IOS-XE Native Filter
+    """
+    with manager.connect(host=HOST, port=PORT, username=USER,
+                         password=PASS, hostkey_verify=False,
+                         device_params={'name': 'default'},
+                         allow_agent=False, look_for_keys=False) as m:
+
+        return(m.get_config('running', xml_filter))
+
+
+def get_int_info(int):
+    name_obj = int.getElementsByTagName("name")[0]
+    name = name_obj.firstChild.nodeValue
+
+    if len(int.getElementsByTagName("description")) != 1:
+        description = "empty"
+    else:
+        description_obj = int.getElementsByTagName("description")[0]
+        description = description_obj.firstChild.nodeValue
+
+    return IntInfo(name, description)
+
+
+def main():
+    interfaces = connect(NS)
+
+    doc = DOM.parseString(interfaces.xml)
+    node = doc.documentElement
+
+    gigs = doc.getElementsByTagName("GigabitEthernet")
+    for GE in gigs:
+        ints = get_int_info(GE)
+        print("GigabitEthernet%s, description: %s" % (ints.name, ints.description))
+
+    loops = doc.getElementsByTagName("Loopback")
+    for LO in loops:
+        ints = get_int_info(LO)
+        print("Loopback%s,        description: %s" % (ints.name, ints.description))
+
+
+if __name__ == '__main__':
+    sys.exit(main())
+``` 
+In this script, we've built upon some of the earlier modules' scripts.  Several elements should look familiar.  
+
+1. We continue to use the ncclient module to retrieve information via NETCONF.  And again we are leverage the 'get_config' data retrieval option.
+2. We've moved the `xml_filter` up to the global variables section to make it easier to identify, but we have modified it from the previous modules so that it will only return the information nested inside the `interface` section of the YANG model.
+3. We've broken to script into several definitions (routines) so that the main function can iterate through both the `GigabitEthernet` interfaces and the `Loopback` interfaces.  
+4. We've also shown how the data can be returned as an object by using a class identifier for `IntInfo`.  This would make it easier to structure the data if we needed to gather it for many devices or many interfaces inside a device.
+
+Copy the command inside the grey box below and paste it into the device prompt.
+
+```
+guestshell run python /flash/get_int_info.py
+```
+The output from this script is the following:
+
+```
+devnet2556#guestshell run python /flash/get_int_info.py
+GigabitEthernet1, description: WAN
+Loopback0,        description: Tracked Interface
+Loopback66,        description: empty
 ```
 
-Now that we have the EEM component in place, let's execute the demonstration.  Copy the commands in the grey box below onto your device's prompt.
 
-```
-term mon
-conf t
-int loo 0
-shutdown
-end
-```
+Now for the final module, let's bring all of these components together!
 
-You will see the Syslog messages scrolling across the screen letting us know the Loopback0 interface is now down.  
+### [Next Step - Module 8 - Bringin It All Together](Module8.md)
 
-Wait about 30 seconds, then look at the GigabitEthernet1 interface on the device again.
-
-```
-show runn interface gig 1
-```
-
-The interface has now applied the new policy map for a single operational WAN interface.  
-
-![alt text](images/Python-1WAN.png)
-
-#### This concludes the Lab.

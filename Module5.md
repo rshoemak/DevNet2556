@@ -7,7 +7,8 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [Bringing It All Together](Module7.md)
+* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 8 - [Bringing It All Together](Module8.md)
 
 
 ### Module 5 - Embedded Event Manager
@@ -17,21 +18,13 @@ One of the primary use cases for the Python container on IOS-XE is utilizing it 
 We will use the python script `eem_script.py` for this module.  
 
 ```python
-import os
-import sys,getopt
-from datetime import datetime
-import time
-from cli import cli,clip
-
-intf=sys.argv[1:]
+import sys
+import cli
+ 
+intf = sys.argv[1:]
 intf = ''.join(intf[0])
 
-if intf == loopback66;:
-	cmd="conf t; int loopback66; no shut"
-	cli(cmd)
-else :
-	cmd="conf t; int %s; no shut "%intf
-	cli(cmd)
+cli.cli("conf t; int %s; no shutdown" %intf)
 ```
 
 In order to execute this script, we need to create an EEM policy in CLI.  Copy the content from the grey box below and paste that into the device prompt.
@@ -42,7 +35,7 @@ conf t
 event manager applet interface_Shutdown
  event syslog pattern "Interface Loopback66, changed state to administratively down"
  action 0.0 cli command "en"
- action 1.0 cli command "guestshell run python /flash/eem_script.py loopback66"
+ action 1.0 cli command "guestshell run python /flash/eem_script.py Loopback66"	
 !
 end
 ```

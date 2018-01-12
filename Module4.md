@@ -7,7 +7,8 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [Bringing It All Together](Module7.md)
+* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 8 - [Bringing It All Together](Module8.md)
 
 
 ### Module 4 - Python Script

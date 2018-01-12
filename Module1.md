@@ -7,7 +7,8 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [Bringing It All Together](Module7.md)
+* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 8 - [Bringing It All Together](Module8.md)
 
 
 ### Module 1 - Verifying Guest Shell Operation
@@ -54,8 +55,34 @@ Libvirtd             : Running
 ```
 
 ```
-devnet2556#$tform software iox-manager app-hosting guestshell status         
-Guestshell status: RUNNING 
+devnet2556#show app-hosting detail appid guestshell
+State                  : RUNNING
+Author                 : Cisco Systems
+Application
+  Type                 : lxc
+  App id               : guestshell
+  Name                 : GuestShell
+  Version              : 2.3(0.1)
+Activated profile name : custom
+  Description          : Cisco Systems Guest Shell XE for x86
+Resource reservation
+  Memory               : 512 MB
+  Disk                 : 1 MB
+  CPU                  : 1500 units
+  VCPU                 : 1
+Attached devices
+  Type              Name        Alias
+  ---------------------------------------------
+  Serial/shell
+  Serial/aux
+  Serial/Syslog                 serial2
+  Serial/Trace                  serial3
+
+Network interfaces
+   ---------------------------------------
+eth0:
+   MAC address         : 52:54:dd:70:b2:e3
+   IPv4 address        : 192.168.35.2
 ```
 These indicate our Linux environment is up and running.  We can proceed to the next section of the lab.
 
