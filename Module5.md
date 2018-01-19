@@ -24,7 +24,7 @@ import cli
 intf = sys.argv[1:]
 intf = ''.join(intf[0])
 
-cli.cli("conf t; int %s; no shutdown" %intf)
+cli.cli("conf t; int %s; no shutdown; end" %intf)
 ```
 
 In order to execute this script, we need to create an EEM policy in CLI.  Copy the content from the grey box below and paste that into the device prompt.
@@ -48,6 +48,7 @@ conf t
 int loop 66
 shutdown
 end
+
 ```
 With `term mon` enabled, you can monitor the Syslog messages, and note how the Loopback interface gets shutdown, but then re-enabled as the EEM script is executed.
 

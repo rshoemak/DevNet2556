@@ -49,7 +49,7 @@ import sys
 import xml.dom.minidom
 
 # the variables below assume the user is leveraging a
-# Vagrant Image running IOS-XE 16.5 or later on local device
+# Vagrant Image running IOS-XE 16.6 or later on local device
 HOST = '192.168.35.1'
 # use the NETCONF port for your IOS-XE
 PORT = 830

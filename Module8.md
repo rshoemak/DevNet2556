@@ -32,7 +32,7 @@ Note that this policy map provides a 1.5G shaper to the WAN interface.
 
 For this example, we are going to execute a procedure that checks for when a monitored interface goes "down" and then changes the QoS policy for still operating WAN interfaces.  The idea is that it might be beneficial to modify how QoS behaves if your branch site moves from dual operational WAN links to only one operational WAN link.  
 
-The Python script we are going to be using is going to leverage NETCONF to identify the interface with the desciption "WAN" and in an operationally up state.  When it finds this interface, it will leverage the Python API to change to QoS policy map applied to it.  
+The Python script we are going to be using is going to leverage NETCONF to identify the interface with the desciption "WAN" and in an operationally up state.  When it finds this interface, it will leverage the Python API to change the QoS policy map applied to it.  
 
 Finally, we will be using EEM to monitor for the interface of interest and only make this change when that interface goes "down."
 
@@ -114,8 +114,8 @@ def main():
         if ints.description == 'WAN':
             if ints.enabled == 'true':
                 print("Adjusting QoS Policy on interface %s" % ints.name)
-                cli('conf t; int %s; no service-policy output normal-egress-shape' % ints.name)
-                cli('conf t; int %s; service-policy output linkdown-egress-shape' % ints.name)
+                cli('conf t; int %s; no service-policy output normal-egress-shape; end' % ints.name)
+                cli('conf t; int %s; service-policy output linkdown-egress-shape; end' % ints.name)
 
 
 if __name__ == '__main__':

@@ -59,14 +59,14 @@ Let's try some other commands.  Now we're going to add an interface to the devic
 Copy the content from the grey box below and paste that into the device.
 
 ```
-cli.cli("conf t; int loo 66; ip address 192.168.166.1 255.255.255.255")
+cli.cli("conf t; int loo 66; ip address 192.168.166.1 255.255.255.255; end")
 cli.clip("show ip int brief")
 ```
 We see the result, and notice that Loopback 66 has been added, but we needed a second command to verify the result.
 
 ![alt text](images/cli-add-loopback.png)
 
-If we use the `cli.configure()` command, we can get immediate feedback as to if the command worked and which parts were successful.
+If we use the `cli.configurep()` command, we can get immediate feedback as to if the command worked and which parts were successful.
 
 Copy the content from the grey box below and paste that into the device.
 

@@ -11,7 +11,7 @@ import xml.dom.minidom as DOM
 
 
 # the variables below assume the user is leveraging a
-# Vagrant Image running IOS-XE 16.7 on local device
+# Vagrant Image running IOS-XE 16.6 on local device
 HOST = '192.168.35.1'
 # use the NETCONF port for your IOS-XE
 PORT = 830
@@ -30,7 +30,7 @@ def main():
                          allow_agent=False, look_for_keys=False) as m:
 
         # XML filter to issue with the get operation
-        hostname_filter = """
+        interface_filter = """
                         <filter>
                             <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
                                 <interface></interface>
@@ -38,7 +38,7 @@ def main():
                         </filter>
                         """
 
-        result = m.get_config('running', hostname_filter)
+        result = m.get_config('running', interface_filter)
         print(DOM.parseString(result.xml).toprettyxml())
 
 

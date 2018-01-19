@@ -33,7 +33,7 @@ import xml.dom.minidom as DOM
 
 
 # the variables below assume the user is leveraging a
-# Vagrant Image running IOS-XE 16.7 on local device
+# Vagrant Image running IOS-XE 16.6 on local device
 HOST = '192.168.35.1'
 # use the NETCONF port for your IOS-XE
 PORT = 830
@@ -81,7 +81,7 @@ The returned output is an XML formatted display of all the elements that is cont
 
 If we need to collect a node of data from something inside this returned XML data structure, then we can use Python to find the correct node, and then assign that value to a variable.  
 
-Let's look at one more program that will show how we can leverage this NETCONF returned data structure to extract the information we need.  In particular, let's use NETCONF to return values for each interface's name, description, and IP address.  
+Let's look at one more program that will show how we can leverage this NETCONF returned data structure to extract the information we need.  In particular, let's use NETCONF to return values for each interface's name and description.  
 
 We will do this by using the following Python script:
 
@@ -93,7 +93,7 @@ import sys
 import xml.dom.minidom as DOM
 
 # the variables below assume the user is leveraging a
-# Vagrant Image running IOS-XE 16.7 on local device
+# Vagrant Image running IOS-XE 16.6 on local device
 HOST = '192.168.35.1'
 # use the NETCONF port for your IOS-XE
 PORT = 830
@@ -165,7 +165,7 @@ In this script, we've built upon some of the earlier modules' scripts.  Several 
 
 1. We continue to use the ncclient module to retrieve information via NETCONF.  And again we are leverage the 'get_config' data retrieval option.
 2. We've moved the `xml_filter` up to the global variables section to make it easier to identify, but we have modified it from the previous modules so that it will only return the information nested inside the `interface` section of the YANG model.
-3. We've broken to script into several definitions (routines) so that the main function can iterate through both the `GigabitEthernet` interfaces and the `Loopback` interfaces.  
+3. We've broken to script into several definitions (routines) so that the main function can iterate through both the `GigabitEthernet` interfaces and the `Loopback` interfaces.  This also means there is no request to gather the information for the VirtualPortGroup interface, so we won't see that data returned.
 4. We've also shown how the data can be returned as an object by using a class identifier for `IntInfo`.  This would make it easier to structure the data if we needed to gather it for many devices or many interfaces inside a device.
 
 Copy the command inside the grey box below and paste it into the device prompt.
@@ -178,8 +178,11 @@ The output from this script is the following:
 ```
 devnet2556#guestshell run python /flash/get_int_info.py
 GigabitEthernet1, description: WAN
+GigabitEthernet2, description: Link 2 - Configured by Ansible with Vagrant
+GigabitEthernet3, description: Link 3 - Configured by Ansible with Vagrant
 Loopback0,        description: Tracked Interface
 Loopback66,        description: empty
+Loopback77,        description: empty
 ```
 
 

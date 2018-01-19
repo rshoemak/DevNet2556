@@ -21,7 +21,7 @@ Let's start by examining the status on the router.  Copy and paste the content i
 
 ```
 show iox-service
-request platform software iox-manager app-hosting guestshell status
+show app-hosting detail appid guestshell
 ```
 
 When these commands are input into IOS-XE.  You should see the output below:
