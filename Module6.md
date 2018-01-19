@@ -7,7 +7,7 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 7 - [A Deeper Look at NETCONF](Module7.md)
 * Module 8 - [Bringing It All Together](Module8.md)
 
 
@@ -91,7 +91,7 @@ While a more detailed description of NETCONF & YANG are outside of the scope of 
 1. ncclient is the NETCONF client model for Python.  Through this, various NETCONF calls can be made inside the script.  In this lab, we use the command `get_config('running', FILTER)` in order to collect information from the running config.
 2. the `manager.connect` function shows how we will connect to the device.  Notice we use a defined username and password along with the IP address of the device and its NETCONF port, 830, to connect.
 3. The `xml_filter` being used is `http://cisco.com/ns/yang/Cisco-IOS-XE-Native` and this is a YANG model that will provide the information we need in a standard model.  
-4. We use miniDOM to parse the data collected from the `get_config` command.  Here, we are specifically looking for an element with a Tag called "hostname."
+4. We use miniDOM to parse the data collected from the `get_config` command.  Here, we are specifically looking for an element with a Tag Name called "hostname."
 
 Copy the commands inside the grey box below and paste them into the device prompt, and we will use the script to retrieve the hostname of the device.
 

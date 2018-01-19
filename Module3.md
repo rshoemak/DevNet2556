@@ -7,7 +7,7 @@
 * Module 4 - [Python Script](Module4.md)
 * Module 5 - [Embedded Event Manager](Module5.md)
 * Module 6 - [NETCONF & YANG](Module6.md)
-* Module 7 - [A Deeper Look at NETCONF](module7.md)
+* Module 7 - [A Deeper Look at NETCONF](Module7.md)
 * Module 8 - [Bringing It All Together](Module8.md)
 
 
@@ -59,7 +59,7 @@ Let's try some other commands.  Now we're going to add an interface to the devic
 Copy the content from the grey box below and paste that into the device.
 
 ```
-cli.cli("conf t; int loo 66; ip address 198.168.166.1 255.255.255.255")
+cli.cli("conf t; int loo 66; ip address 192.168.166.1 255.255.255.255")
 cli.clip("show ip int brief")
 ```
 We see the result, and notice that Loopback 66 has been added, but we needed a second command to verify the result.
