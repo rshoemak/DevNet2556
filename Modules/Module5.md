@@ -52,6 +52,6 @@ end
 ```
 With `term mon` enabled, you can monitor the Syslog messages, and note how the Loopback interface gets shutdown, but then re-enabled as the EEM script is executed.
 
-![alt text](images/eem-script-loop-up.png)
+![alt text](../images/eem-script-loop-up.png)
 
 ### [Next Step - Module 6 - NETCONF & YANG](Module6.md)

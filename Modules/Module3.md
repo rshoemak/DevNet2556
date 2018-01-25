@@ -52,7 +52,7 @@ cli.clip("show ip int brief")
 
 Now the output is cleaner!
 
-![alt text](images/cli-show-interface-1.png)
+![alt text](../images/cli-show-interface-1.png)
 
 Let's try some other commands.  Now we're going to add an interface to the device.  We could use the same `cli.cli()` command and then verify the result as a simple exercise.
 
@@ -64,7 +64,7 @@ cli.clip("show ip int brief")
 ```
 We see the result, and notice that Loopback 66 has been added, but we needed a second command to verify the result.
 
-![alt text](images/cli-add-loopback.png)
+![alt text](../images/cli-add-loopback.png)
 
 If we use the `cli.configurep()` command, we can get immediate feedback as to if the command worked and which parts were successful.
 
@@ -75,7 +75,7 @@ cli.configurep(["interface Loopback 77", "ip address 192.168.177.1 255.255.255.2
 ```
 Now we see a result from each command in the list.
 
-![alt text](images/configurep-add-loopback.png)
+![alt text](../images/configurep-add-loopback.png)
 
 This demonstrates some simple uses of the Python API.  In the next section we will see how some of this can be used in a more programmatic fashion.
 

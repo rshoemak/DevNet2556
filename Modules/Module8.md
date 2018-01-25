@@ -159,6 +159,6 @@ show runn interface gig 1
 
 The interface has now applied the new policy map for a single operational WAN interface.  
 
-![alt text](images/Python-1WAN.png)
+![alt text](../images/Python-1WAN.png)
 
 #### This concludes the Lab.

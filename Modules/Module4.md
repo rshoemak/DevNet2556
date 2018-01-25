@@ -22,7 +22,7 @@ cli.clip("dir bootflash:*.py")
 ```
 There will be several Python scripts stored in the directory.
 
-![alt text](images/verify-python-scripts.png)
+![alt text](../images/verify-python-scripts.png)
 
 The one we will be using for this section is `get_int_ip_cli.py`
 
@@ -47,7 +47,7 @@ guestshell run python /flash/get_int_ip_cli.py
 ```
 The returned result will show the various interfaces in the device.
 
-![alt text](images/python-get-int.png)
+![alt text](../images/python-get-int.png)
 
 This shows how to run a simple Python script to get output.  
 

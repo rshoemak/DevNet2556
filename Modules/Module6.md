@@ -24,7 +24,7 @@ show running | include netconf-yang
 show onep session all
 ```
 
-![alt text](images/show-netconf-enabled.png)
+![alt text](../images/show-netconf-enabled.png)
 
 Note how there are only a couple of lines that need to be added to an IOS-XE device's configuration to enable netconf.  We check the status of the service by issuing the second command that validates the onep sessions are running.
 
@@ -32,7 +32,7 @@ For this module, we will be using a YANG model that Cisco built to expand upon t
 
 Let's take a look at some basic structuring of the Cisco-IOS-XE-Native YANG Model.
 
-![alt text](images/YANG-Model-IOSXE-Native.png)
+![alt text](../images/YANG-Model-IOSXE-Native.png)
 
 Here we see the information follows a well-defined structure.  In this example, we see a model that will gather information about a device's GigabitEthernet interfaces.  The information returned will be nested within the GigabitEthernet interface structure.  Here we see that some of the data pieces that will be returned include the name, port-type, description, mac-address, shutdown state, and encapsulation type.  
 
@@ -100,7 +100,7 @@ guestshell run python /flash/get_hostname.py
 ```
 This ends up being a very simple return, but we can see the power of using a more standardized structure to categorize data in a device's configuration.
 
-![alt text](images/netconf-get-hostname.png)
+![alt text](../images/netconf-get-hostname.png)
 
 For the next module, let's explore getting data out of a configuration from both the "CLI" method and via NETCONF.  
 

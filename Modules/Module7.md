@@ -77,7 +77,7 @@ guestshell run python /flash/get_interface_YANG_elements.py
 ```
 The returned output is an XML formatted display of all the elements that is contained inside that YANG model structure.  Here is a snippet of what comes back.
 
-![alt text](images/get_interface_YANG_elements_output.png)
+![alt text](../images/get_interface_YANG_elements_output.png)
 
 If we need to collect a node of data from something inside this returned XML data structure, then we can use Python to find the correct node, and then assign that value to a variable.  
 
