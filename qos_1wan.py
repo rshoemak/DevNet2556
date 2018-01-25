@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from ncclient import manager
-import os
 import sys
 import xml.dom.minidom as DOM
 from cli import cli
@@ -17,6 +16,7 @@ NS = """
             </interfaces>
         </filter>
         """
+
 
 class IntInfo():
     def __init__(self, name, description, enabled):
