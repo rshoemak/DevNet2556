@@ -104,7 +104,6 @@ This ends up being a very simple return, but we can see the power of using a mor
 
 For the next module, let's explore getting data out of a configuration from both the "CLI" method and via NETCONF.  
 
-Now for the final module, let's bring all of these components together!
 
 ### [Next Step - Module 7 - A Deeper Look at NETCONF](Module7.md)
 
