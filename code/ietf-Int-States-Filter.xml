@@ -1,0 +1,6 @@
+<filter>
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+        <!-- #xmlns is the xml namespace - we will use the defined namespace in the python program -->
+        <interface></interface>
+    </interfaces-state>
+ </filter>

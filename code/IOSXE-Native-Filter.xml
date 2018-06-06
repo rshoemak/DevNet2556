@@ -1,0 +1,6 @@
+<filter>
+    <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native" xmlns:ios-policy="http://cisco.com/ns/yang/Cisco-IOS-XE-policy">
+        <!-- #xmlns is the xml namespace - we will use the defined namespace in the python program -->
+        <interface></interface>
+    </native>
+ </filter>
