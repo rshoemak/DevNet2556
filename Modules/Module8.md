@@ -137,6 +137,7 @@ event syslog pattern "Line protocol on Interface Loopback0, changed state to dow
 action 0.0 cli command "en"
 action 1.0 cli command "guestshell run python /flash/qos_1wan.py"
 end
+wr mem
 ```
 
 Now that we have the EEM component in place, let's execute the demonstration.  Copy the commands in the grey box below onto your device's prompt.
