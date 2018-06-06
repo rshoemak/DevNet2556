@@ -38,6 +38,8 @@ event manager applet interface_Shutdown
  action 1.0 cli command "guestshell run python /flash/eem_script.py Loopback66"	
 !
 end
+!
+wr mem
 ```
 
 Note how shutting down Loopback66 will automatically execute the Python script.  Let's see it in action!  Copy the commands from the grey box and paste them into the device prompt.  
