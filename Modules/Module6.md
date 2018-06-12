@@ -21,12 +21,11 @@ In order to use NETCONF on IOS-XE, the capabiliy must be enabled.  Copy the info
 
 ```
 show running | include netconf-yang
-show onep session all
 ```
 
-![alt text](../images/show-netconf-enabled.png)
+<br/>
+<br/>
 
-Note how there are only a couple of lines that need to be added to an IOS-XE device's configuration to enable netconf.  We check the status of the service by issuing the second command that validates the onep sessions are running.
 
 For this module, we will be using a YANG model that Cisco built to expand upon the standard data structures of IETF models.  For this lab, we will be extracting the hostname of the device using the IOS-XE/Native Yang model.  
 
