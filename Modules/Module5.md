@@ -24,8 +24,10 @@ import cli
 intf = sys.argv[1:]
 intf = ''.join(intf[0])
 
-cli.cli("conf t; int %s; no shutdown; end" %intf)
+cli.configurep(["int %s" %intf, "no shutdown", "end"])
 ```
+
+Notice we are using the "configure" python API here.  Since we will be executing configuration commands to the device, this is the appropriate API to use.
 
 In order to execute this script, we need to create an EEM policy in CLI.  Copy the content from the grey box below and paste that into the device prompt.
 
