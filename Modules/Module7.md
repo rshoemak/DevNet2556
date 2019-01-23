@@ -145,7 +145,6 @@ def main():
     interfaces = connect(NS)
 
     doc = DOM.parseString(interfaces.xml)
-    node = doc.documentElement
 
     gigs = doc.getElementsByTagName("GigabitEthernet")
     for GE in gigs:

@@ -17,7 +17,7 @@ Outside of the Python API which we explored in Module 3, device configuration ca
 
 While YANG models are provided by industry standards organizations like the IETF, manufacturers can and do provide their own extensions to those models.  They might do this to enhance the capabilities of their equipment beyond what a standards organization will provide.
 
-In order to use NETCONF on IOS-XE, the capabiliy must be enabled.  Copy the information in the grey box below and paste it into the device.
+In order to use NETCONF on IOS-XE, the capabiliy must be enabled.  For this workshop, Netconf has already been enabled on the IOS-XE devices.  Copy the information in the grey box below and paste it into the device in order to confirm that it is indeed configured that way.
 
 ```
 show running | include netconf-yang
@@ -101,7 +101,7 @@ This ends up being a very simple return, but we can see the power of using a mor
 
 ![alt text](../images/netconf-get-hostname.png)
 
-For the next module, let's explore getting data out of a configuration from both the "CLI" method and via NETCONF.  
+For the next module, let's take another look at how we can identify and categorize returned data in a more meaningful way.  
 
 
 ### [Next Step - Module 7 - A Deeper Look at NETCONF](Module7.md)

@@ -45,7 +45,7 @@ from ncclient import manager
 import os
 import sys
 import xml.dom.minidom as DOM
-from cli import cli
+import cli
 
 HOST = '192.168.35.1'
 PORT = 830
@@ -104,19 +104,16 @@ def main():
     # print(DOM.parseString(interfaces_ietf.xml).toprettyxml())
 
     doc = DOM.parseString(interfaces_ietf.xml)
-    node = doc.documentElement
 
     inters_ietf = doc.getElementsByTagName("interface")
     for each in inters_ietf:
         ints = get_int_info(each)
-        # print("%s, description: %s,  enabled: %s" % (ints.name, ints.description, ints.enabled))
+        # print(%s, description: %s,  enabled: %s" %(ints.name, ints.description, ints.enabled))
 
         if ints.description == 'WAN':
             if ints.enabled == 'true':
-                print("Adjusting QoS Policy on interface %s" % ints.name)
-                cli('conf t; int %s; no service-policy output normal-egress-shape; end' % ints.name)
-                cli('conf t; int %s; service-policy output linkdown-egress-shape; end' % ints.name)
-
+                print "Adjusting QoS Policy on interface %s" %ints.name
+                cli.configure(["int %s" %ints.name, "no service-policy output normal-egress-shape", "service-policy output linkdown-egress-shape", "end"])
 
 if __name__ == '__main__':
     sys.exit(main())
@@ -136,6 +133,7 @@ event manager applet 1WAN
 event syslog pattern "Line protocol on Interface Loopback0, changed state to down"
 action 0.0 cli command "en"
 action 1.0 cli command "guestshell run python /flash/qos_1wan.py"
+action 2.0 puts "$_cli_result"
 end
 wr mem
 ```
@@ -145,6 +143,7 @@ Now that we have the EEM component in place, let's execute the demonstration.  C
 ```
 term mon
 conf t
+logging monitor informational
 int loo 0
 shutdown
 end
@@ -152,13 +151,7 @@ end
 
 You will see the Syslog messages scrolling across the screen letting us know the Loopback0 interface is now down.  
 
-Wait about 30 seconds, then look at the GigabitEthernet1 interface on the device again.
-
-```
-show runn interface gig 1
-```
-
-The interface has now applied the new policy map for a single operational WAN interface.  
+You will also see several printouts that we saw in our code showing the various cli.configure commands being executed.  Then there is a printout of the new running configuration on the GE interface showing us the new policy map for a single operational WAN interface has been applied.  
 
 ![alt text](../images/Python-1WAN.png)
 

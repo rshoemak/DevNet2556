@@ -3,7 +3,7 @@
 from ncclient import manager
 import sys
 import xml.dom.minidom as DOM
-from cli import cli
+import cli
 
 HOST = '192.168.35.1'
 PORT = 830
@@ -72,9 +72,11 @@ def main():
 
         if ints.description == 'WAN':
             if ints.enabled == 'true':
-                print("Adjusting QoS Policy on interface %s" % ints.name)
-                cli('conf t; int %s; no service-policy output normal-egress-shape' % ints.name)
-                cli('conf t; int %s; service-policy output linkdown-egress-shape' % ints.name)
+                print "\n\n *** Adjusting QoS Policy on interface %s  ***\n\n" %ints.name
+                cli.configurep(["interface %s" %ints.name, "no service-policy output normal-egress-shape",
+                                "service-policy output linkdown-egress-shape", "end"])
+                print "\n\n *** Now let's check the QoS Policy applied to the running WAN interface ***\n\n"
+                cli.executep('show runn interface %s' %ints.name)
 
 
 if __name__ == '__main__':
