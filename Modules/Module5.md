@@ -38,6 +38,7 @@ event manager applet interface_Shutdown
  event syslog pattern "Interface Loopback66, changed state to administratively down"
  action 0.0 cli command "en"
  action 1.0 cli command "guestshell run python /flash/eem_script.py Loopback66"	
+ action 2.0 puts "$_cli_result"
 !
 end
 !
@@ -49,6 +50,7 @@ Note how shutting down Loopback66 will automatically execute the Python script. 
 ```
 term mon
 conf t
+logging monitor informational
 int loop 66
 shutdown
 end

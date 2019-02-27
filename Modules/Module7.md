@@ -181,11 +181,11 @@ GigabitEthernet2, description: Link 2 - Configured by Ansible with Vagrant
 GigabitEthernet3, description: Link 3 - Configured by Ansible with Vagrant
 Loopback0,        description: Tracked Interface
 Loopback66,        description: empty
-Loopback77,        description: empty
+Loopback77,        description: This Is LO 77
 ```
 
 
 Now for the final module, let's bring all of these components together!
 
-### [Next Step - Module 8 - Bringin It All Together](Module8.md)
+### [Next Step - Module 8 - Bringing It All Together](Module8.md)
 

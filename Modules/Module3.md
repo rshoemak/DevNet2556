@@ -71,7 +71,7 @@ If we use the `cli.configurep()` command, we can get immediate feedback as to if
 Copy the content from the grey box below and paste that into the device.
 
 ```
-cli.configurep(["interface Loopback 77", "ip address 192.168.177.1 255.255.255.255", "end"])
+cli.configurep(["interface Loopback 77", "ip address 192.168.177.1 255.255.255.255", "description This Is LO 77", "end"])
 ```
 Now we see a result from each command in the list.
 
