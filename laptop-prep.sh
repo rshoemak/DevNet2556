@@ -19,12 +19,12 @@
 echo
 echo ***Update Requests***
 echo
-sudo pip install requests
+sudo pip install requests --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
 echo
 echo ***Install NetConf Client***
 echo
-sudo pip install ncclient
+sudo pip install ncclient --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
 echo
 echo ***Copy Python Files to Bootflash***

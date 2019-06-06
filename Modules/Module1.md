@@ -56,27 +56,28 @@ Libvirtd             : Running
 
 ```
 devnet2556#show app-hosting detail appid guestshell
+App id					   : guestshell
+Owner                  : iox
 State                  : RUNNING
-Author                 : Cisco Systems
 Application
   Type                 : lxc
-  App id               : guestshell
   Name                 : GuestShell
-  Version              : 2.3(0.1)
+  Version              : 2.4.1(0.1)
+  Description          : Cisco Systems Guest Shell XE fo x86
 Activated profile name : custom
-  Description          : Cisco Systems Guest Shell XE for x86
+  
 Resource reservation
   Memory               : 512 MB
   Disk                 : 1 MB
   CPU                  : 1500 units
-  VCPU                 : 1
+
 Attached devices
-  Type              Name        Alias
+  Type              Name               Alias
   ---------------------------------------------
-  Serial/shell
-  Serial/aux
-  Serial/Syslog                 serial2
-  Serial/Trace                  serial3
+  Serial/shell    iox_console_shell   serial0
+  Serial/aux      iox_console_aux     serial1
+  Serial/Syslog   iox_syslog          serial2
+  Serial/Trace    iox_trace           serial3
 
 Network interfaces
    ---------------------------------------

@@ -177,8 +177,8 @@ The output from this script is the following:
 ```
 devnet2556#guestshell run python /flash/get_int_info.py
 GigabitEthernet1, description: WAN
-GigabitEthernet2, description: Link 2 - Configured by Ansible with Vagrant
-GigabitEthernet3, description: Link 3 - Configured by Ansible with Vagrant
+GigabitEthernet2, description: This is Interface 2
+GigabitEthernet3, description: This is Interface 3
 Loopback0,        description: Tracked Interface
 Loopback66,        description: empty
 Loopback77,        description: This Is LO 77
