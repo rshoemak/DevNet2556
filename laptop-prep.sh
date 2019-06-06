@@ -15,6 +15,10 @@
 # IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 # or implied.
 
+echo
+echo ***Update PIP***
+echo
+sudo pip install --upgrade pip --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
 echo
 echo ***Update Requests***
@@ -24,7 +28,7 @@ sudo pip install requests --trusted-host pypi.org --trusted-host files.pythonhos
 echo
 echo ***Install NetConf Client***
 echo
-sudo pip install ncclient --trusted-host pypi.org --trusted-host files.pythonhosted.org
+sudo pip install ncclient==0.5.3 --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
 echo
 echo ***Copy Python Files to Bootflash***
