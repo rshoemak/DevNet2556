@@ -18,21 +18,21 @@ A built-in module for the Python interpreter embedded in IOS-XE is a new Python 
 
 The following commands are available through the Python API:
 
-**cli.cli(command)** - takes an IOS command as an argument, runs through the IOS parser, and returns the result
+**cli.cli(command)** - takes an IOS command or a delimited batch of commands as an argument (delimiter is a space and semicolon), runs through the IOS parser, and returns the result
 
-**cli.clip(command)** - takes an IOS command as an argument, runs through the IOS parser, and prints the result
+**cli.clip(command)** - takes an IOS command or a delimited batch of commandsas an argument (delimiter is a space and semicolon), runs through the IOS parser, and prints the result
 
 **cli.execute(command)** - executes a single exec command and returns the result
 
 **cli.executep(command)** - executes a single exec command and prints the result
 
-**cli.configure(command)** - configures the device with the command, multiple commands can be separated by commas, and it returns the result
+**cli.configure(command)** - configures the device with the command, multiple commands can be separated by newlines, and it returns the result
 
-**cli.configurep(command)** - configures the device with the command, multiple commands can be separated by commas, and it prints the result
+**cli.configurep(command)** - configures the device with the command, multiple commands can be separated by newlines, and it prints the result
 
 
 --------------------------------
-Let's test some of these out.  Copy the content in the grey box below 
+Let's test these out by starting with the `cli.cli()` command.  Copy the content in the grey box below:
 
 ```
 import cli
@@ -59,23 +59,61 @@ Let's try some other commands.  Now we're going to add an interface to the devic
 Copy the content from the grey box below and paste that into the device.
 
 ```
-cli.cli("conf t; int loo 66; ip address 192.168.166.1 255.255.255.255; end")
+cli.cli("conf t ; int Loopback 66 ; ip address 192.168.166.1 255.255.255.255 ; end")
 cli.clip("show ip int brief")
 ```
 We see the result, and notice that Loopback 66 has been added, but we needed a second command to verify the result.
 
 ![alt text](../images/cli-add-loopback.png)
 
-If we use the `cli.configurep()` command, we can get immediate feedback as to if the command worked and which parts were successful.
+
+While we can use the `cli.cli()` command to execute configurations like the one above, a better method is to use the `cli.configure()` command to do this.  This second command allows us to create a list of IOS commands that should be executed by entering them in order separated by carriage returns.  Additionally, if we use the `cli.configurep()` command, we can get immediate feedback as to if the list of commands worked and which ones were successful.
+
+Let's see how we would do this.  We will start by creating a list of commands to create a new Loopback address.
 
 Copy the content from the grey box below and paste that into the device.
 
 ```
-cli.configurep(["interface Loopback 77", "ip address 192.168.177.1 255.255.255.255", "description This Is LO 77", "end"])
+configuration = '''interface Loopback 77
+ip address 192.168.177.1 255.255.255.255
+description This is LO 77
+end'''
+```
+Once this set of commands is entered, copy the next gray box to execute the configuration using `configurep()`
+
+```         
+cli.configurep(configuration)
 ```
 Now we see a result from each command in the list.
 
 ![alt text](../images/configurep-add-loopback.png)
+
+Let's explore the final cli command, `cli.execute()`.  This command is used to execute a single exec level command.  So it cannot be used to configure a device as there is no way to retain status in IOS-XE from one execute command to the next.  Thus, there is no way to enter "config t" mode and then execute successive commands.  
+
+If we want to use the `cli.execute()` command to run through a series of commands, we can use a Python List with a for loop to get that done.  Let's take a look at how that would work.
+
+First, we will create a list of the exec level commands we want to run.  Copy the information in the next gray box to get our list added.
+
+```
+list = ["show runn int loo 66", "show runn int loo 77", "show runn int Vir 0", "show runn | i nat"]
+```
+
+Once this list is in place, copy the next gray box to run our for loop.
+
+```
+for i in list:
+   print(" *** New Command *** \n")
+   cli.executep(i)
+   print("\n\n")
+   
+```
+####Make sure you hit one more carriage return un-indented to show the python interpreter you are finished with the for loop commands.
+
+You should see output like the one below.
+
+![alt text](../images/cli-execute-command.png)
+
+
 
 This demonstrates some simple uses of the Python API.  In the next section we will see how some of this can be used in a more programmatic fashion.
 
