@@ -73,12 +73,12 @@ def main():
         if ints.description == 'WAN':
             if ints.enabled == 'true':
                 print "\n\n *** Adjusting QoS Policy on interface %s  ***\n\n" %ints.name
+
                 configuration = '''interface %s
                 no service-policy output normal-egress-shape
-                service-policy linkdown-egress-shape
+                service-policy output linkdown-egress-shape
                 end''' %ints.name
-                #cli.configurep(["interface %s" %ints.name, "no service-policy output normal-egress-shape",
-                #                "service-policy output linkdown-egress-shape", "end"])
+        
                 cli.configurep(configuration)
                 print "\n\n *** Now let's check the QoS Policy applied to the running WAN interface ***\n\n"
                 cli.executep('show runn interface %s' %ints.name)
